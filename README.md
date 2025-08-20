@@ -1,5 +1,5 @@
 
-## Run (WASM mode)
+## Run (WASM mode (prefered))
 
 ```bash (preferred)
 npm run start:wasm
