@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>WebRTC Realtime Object Detection</title>
+	<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+	<header class="app-header">
+		<div class="logo">🖥️ Real-Time Object Detection</div>
+		<div class="mode-switch">
+			<span id="mode"></span>
+		</div>
+	</header>
+	<div class="container">
+		
+		<div class="controls">
+			<label>
+				Room ID:
+				<input id="roomId" placeholder="room123" />
+			</label>
+			<label>
+				Role:
+				<select id="role">
+					<option value="publisher">Publisher (phone)</option>
+					<option value="viewer" selected>Viewer (desktop)</option>
+				</select>
+			</label>
+			<button id="btnStart">Start</button>
+			<span id="status"></span>
+			<span id="mode"></span>
+		</div>
+
+		<main class="dashboard">
+		<div class="card video-section">
+			
+				<h3>Publisher</h3>
+				<div class="stage">
+					<video id="localVideo" autoplay playsinline muted></video>
+				</div class = "actions">
+				
+			</div>
+			
+		
+				<div class="card video-section">
+				<h3>Viewer</h3>
+				<div class="stage">
+					<video id="remoteVideo" autoplay playsinline></video>
+					<canvas id="overlay"></canvas>
+				</div>
+				</div class = "actions">
+				<button class ="start" id="btnQR" >Show QR for Publisher</button>
+			</div>
+			
+		</div>
+	</div>
+
+	
+	<div id="qrModal" class="modal" hidden>
+		<div class="modal-content">
+			<h3>Scan on Phone (Publisher)</h3>
+			<div id="qrContainer"></div>
+			<div id="qrUrl" class="qr-url"></div>
+			<div class="modal-actions">
+				<button id="btnCloseQR">Close</button>
+			</div>
+			<div class="qr-hint">Ensure this page is opened via your LAN IP (not localhost) so the phone can reach it.</div>
+		</div>
+	</div>
+</main>
+	<script src="/config.js"></script>
+	<script>
+		
+		(function() {
+			try {
+				var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+				if (isLocal && window.SERVER_LAN_URL) {
+					var target = window.SERVER_LAN_URL + location.pathname + location.search + location.hash;
+					location.replace(target);
+				}
+			} catch (e) {}
+		})();
+	</script>
+	<script>
+		window.APP_MODE = window.APP_MODE || 'wasm';
+	</script>
+	<script>
+		if (window.APP_MODE === 'wasm') {
+			var s1 = document.createElement('script'); s1.src = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.18.0/dist/tf.min.js'; document.head.appendChild(s1);
+			s1.onload = function() {
+				var s2 = document.createElement('script'); s2.src = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@4.18.0/dist/tf-backend-wasm.min.js'; document.head.appendChild(s2);
+				s2.onload = function() {
+					var s3 = document.createElement('script'); s3.src = 'https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js'; document.head.appendChild(s3);
+				};
+			};
+		}
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-M6xA7wZXz2cnrvOPaRsm4pM7iD8Y4UcX4k2Py4thT92f8uUuH2L4K8nq3i1sQ0oBv9C0eR1E2oGd5gB7H0u1xA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="/webrtc.js"></script>
+	<script src="/app.js"></script> 
+
+</body>
+</html> 
+

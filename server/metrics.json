@@ -1,0 +1,14 @@
+{
+  "median_latency_ms": 157,
+  "p95_latency_ms": 177,
+  "fps": 0,
+  "samples_count": 259,
+  "last_detection": {
+    "frame_id": 98,
+    "latency_ms": 160,
+    "detections": 0,
+    "mode": "wasm",
+    "capture_ts": 1755711096096,
+    "inference_ts": 1755711096332
+  }
+}
